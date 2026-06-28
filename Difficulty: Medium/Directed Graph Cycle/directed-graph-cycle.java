@@ -12,23 +12,22 @@ class Solution {
             
             adj.get(u).add(v);
         }
-        
         for(int i=0;i<V;i++){
             for(int it: adj.get(i)){
                 indegree[it]++;
             }
         }
-        Queue<Integer> q = new LinkedList<>();
+        Queue<Integer> q  = new LinkedList<>();
         for(int i=0;i<V;i++){
             if(indegree[i]==0){
                 q.add(i);
             }
         }
-        int cnt =0;
+        int cnt=0;
         while(!q.isEmpty()){
-            int node = q.poll();
+            int n = q.poll();
             cnt++;
-            for(int it : adj.get(node)){
+            for(int it: adj.get(n)){
                 indegree[it]--;
                 if(indegree[it]==0){
                     q.add(it);
