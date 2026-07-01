@@ -12,8 +12,8 @@ class Solution {
 		// Code here
 		ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
 		for (int i = 0; i<V; i++) {
-			ArrayList<Pair> ar = new ArrayList<>();
-			adj.add(ar);
+// 			ArrayList<Pair> ar = new ArrayList<>();
+			adj.add( new ArrayList<Pair>());
 		}
 		for (int i = 0; i<E; i++) {
 			int u = edges[i][0];
