@@ -1,9 +1,9 @@
 class Pair {
-	int node;
-	int wt;
-	Pair(int n, int w) {
-		node = n;
-		wt = w;
+	int n;
+	int d;
+	Pair(int nn, int dd) {
+		n = nn;
+		d = dd;
 	}
 }
 class Solution {
@@ -12,33 +12,28 @@ class Solution {
 		// Code here
 		ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
 		for (int i = 0; i<V; i++) {
-// 			ArrayList<Pair> ar = new ArrayList<>();
-			adj.add( new ArrayList<Pair>());
+			adj.add(new ArrayList<>());
 		}
-		for (int i = 0; i<E; i++) {
-			int u = edges[i][0];
-			int v = edges[i][1];
-			int wt = edges[i][2];
-			adj.get(u).add(new Pair(v, wt));
-		}
-		int visited[] = new int[V];
-		Stack<Integer> st = new Stack<>();
-		for (int i = 0; i<V; i++) {
-			if (visited[i] == 0) {
-				topoSort(i, visited, adj, st);
-			}
+		for (int i = 0; i<edges.length; i++) {
+			adj.get(edges[i][0]).add(new Pair(edges[i][1], edges[i][2]));
 		}
 		int dis[] = new int[V];
 		Arrays.fill(dis, Integer.MAX_VALUE);
+		int visited[] = new int[V];
+		Stack<Integer> st = new Stack<>();
 		dis[0] = 0;
+		for (int i = 0; i<V; i++) {
+			if (visited[i] == 0) {
+				topoSort(i, adj, visited, st);
+			}
+		}
 		while (!st.isEmpty()) {
 			int node = st.pop();
-			for (Pair it:adj.get(node)) {
-				int v = it.node;
-				int wt = it.wt;
-				
-				if (dis[node] != Integer.MAX_VALUE && dis[node] + wt < dis[v]) {
-					dis[v] = dis[node] + wt;
+			for (Pair it: adj.get(node)) {
+				int v = it.n;
+				int wt = it.d;
+				if (dis[node] != Integer.MAX_VALUE && dis[node]+wt<dis[v]) {
+					dis[v] = dis[node]+wt;
 				}
 			}
 		}
@@ -49,15 +44,15 @@ class Solution {
 		}
 		return dis;
 	}
-	public void topoSort(int node, int visited[], ArrayList<ArrayList<Pair>> adj, Stack<Integer> st) {
+	public void topoSort(int node, ArrayList<ArrayList<Pair>> adj, int visited[], Stack<Integer> st) {
 		visited[node] = 1;
 		for (Pair it: adj.get(node)) {
-			int v = it.node;
+			int v = it.n;
 			if (visited[v] == 0) {
-				topoSort(v, visited, adj, st);
+				topoSort(v, adj, visited, st);
 			}
 		}
 		st.push(node);
+		
 	}
-	
 }
