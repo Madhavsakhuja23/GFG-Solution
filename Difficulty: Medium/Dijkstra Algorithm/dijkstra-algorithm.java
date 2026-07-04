@@ -1,9 +1,10 @@
 class Pair{
+
     int node;
-    int distance;
-    Pair(int n, int d){
-        node = n;
-        distance=d;
+    int d;
+    Pair(int y, int di){
+        node=y;
+        d=di;
     }
 }
 class Solution {
@@ -14,28 +15,24 @@ class Solution {
             adj.add(new ArrayList<Pair>());
         }
         for(int i=0;i<edges.length;i++){
-            int u=edges[i][0];
-            int v=edges[i][1];
-            int wt = edges[i][2];
-            adj.get(u).add(new Pair(v, wt));
-            adj.get(v).add(new Pair(u, wt));
+            adj.get(edges[i][0]).add(new Pair(edges[i][1], edges[i][2]));
+            adj.get(edges[i][1]).add(new Pair(edges[i][0], edges[i][2]));
         }
-        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((x,y)->x.distance-y.distance);
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> a.d-b.d);
         int dis[] = new int[V];
         Arrays.fill(dis, Integer.MAX_VALUE);
         dis[src]=0;
         pq.add(new Pair(src, 0));
         while(!pq.isEmpty()){
-            int di = pq.peek().distance;
-            int node = pq.peek().node;
-            pq.poll();
-            
-            for(Pair it: adj.get(node)){
-                int wt = it.distance;
-                int n = it.node;
-                if(di + wt < dis[n]){
-                    dis[n]=di+wt;
-                    pq.add(new Pair(n, di+wt));
+            Pair curr = pq.poll();
+            int n = curr.node;
+            int di = curr.d;
+            for(Pair it: adj.get(n)){
+                int adjNode = it.node;
+                int adjWt = it.d;
+                if(adjWt+di < dis[adjNode]){
+                    dis[adjNode]=adjWt+di;
+                    pq.add(new Pair(adjNode, dis[adjNode]));
                 }
             }
         }
