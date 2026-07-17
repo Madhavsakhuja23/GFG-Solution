@@ -2,22 +2,22 @@ class Solution {
     public ArrayList<Integer> dfs(ArrayList<ArrayList<Integer>> adj) {
         // code here
         ArrayList<Integer> ans = new ArrayList<>();
-        int visited[] = new int[adj.size()];
-        for(int i=0;i<adj.size();i++){
-            for(int it: adj.get(i)){
-                if(visited[i]==0){
-                    dfs(i, adj, visited, ans);
-                }
+        int n = adj.size();
+        int vis[] = new int[n];
+        for(int i=0;i<n;i++){
+            if(vis[i]==0){
+                dfs(i, vis, ans, adj);
             }
         }
         return ans;
     }
-    public void dfs(int node, ArrayList<ArrayList<Integer>> adj, int visited[], ArrayList<Integer> ans){
-        visited[node]=1;
+    public void dfs(int node, int vis[], ArrayList<Integer> ans, ArrayList<ArrayList<Integer>> adj){
         ans.add(node);
+        vis[node]=1;
         for(int it: adj.get(node)){
-            if(visited[it]==0){
-                dfs(it, adj,visited,ans);
+            if(vis[it]==0){
+                vis[it]=1;
+                dfs(it,vis,ans,adj);
             }
         }
     }
